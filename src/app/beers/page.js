@@ -38,13 +38,15 @@ const includes = [
 // on properties names, because they are IDs
 // prettier-ignore
 const batchesColors = {
-    gY2KZyKLFhQxktMJcGjvs4mF0D3TUI: "#da9cdf",
-    KF4QB9uONI0xlmGZlFDMkSdynNAstr: "#a16452",
-    WBkgeGLkfkwNOSV9pnD3zS6UkaTWou: "#ebc94f",
-    i2E4ooAkLp8tkjKc1MCfygHvpRBB0N: "#f5b290",
-    kCtZyLhBhBbSoNiIl8GkFiYXoCVQ8s: "#8aab60",
-    "2znilKPnYjmF6rLhAARCBuAkOdaOXM": "#a16452",
-  };
+  gY2KZyKLFhQxktMJcGjvs4mF0D3TUI: "#da9cdf",
+  KF4QB9uONI0xlmGZlFDMkSdynNAstr: "#a16452",
+  WBkgeGLkfkwNOSV9pnD3zS6UkaTWou: "#ebc94f",
+  i2E4ooAkLp8tkjKc1MCfygHvpRBB0N: "#f5b290",
+  kCtZyLhBhBbSoNiIl8GkFiYXoCVQ8s: "#8aab60",
+  "2znilKPnYjmF6rLhAARCBuAkOdaOXM": "#a16452",
+  wT4VAk3t1uaZiWVpBd4wo0ZmecK3Ih: "#301E18",
+  jJHVCzgXk5OebF6m9FppFbYSSOLvbL: "#F3DE95",
+};
 
 async function getData() {
   // todo: use query params
