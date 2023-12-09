@@ -26,7 +26,7 @@ export const BeerCard = ({
 
   return (
     <article
-      key={`batch-${batchNo}`}
+      key={`batch-${name}-${batchNo}`}
       data-brewfather-id={_id}
       className="bg-gradient-to-br from-slate-100 to-slate-50 border border-gray-200 rounded-lg shadow-md p-4 md:p-6 mb-16"
     >
