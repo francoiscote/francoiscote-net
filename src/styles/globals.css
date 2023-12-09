@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-800;
+  }
+
+  h1 {
+    @apply text-7xl font-bold tracking-tighter mb-12;
+  }
+
+  h2 {
+    @apply text-5xl lg:text-6xl font-bold tracking-tight mb-8;
+  }
+
+  h3 {
+    @apply text-5xl font-bold tracking-tight mb-4;
+  }
+
+  h4 {
+    @apply text-4xl font-semibold tracking-tight mb-12;
+  }
+
+  h5 {
+    @apply text-3xl font-semibold tracking-tight mb-12;
+  }
+
+  h6 {
+    @apply text-2xl font-semibold tracking-tight mb-12;
+  }
+
+  p {
+    @apply mb-6;
+  }
+
+  .lead {
+    @apply text-2xl;
+  }
+
+  strong {
+    @apply font-semibold;
+  }
+
+  a {
+    @apply text-blue-600 cursor-pointer transition-colors;
+  }
+  a:hover {
+    @apply underline text-blue-500;
+  }
+}
+
+@layer components {
+  .half-star {
+    background: linear-gradient(
+      90deg,
+      theme("colors.yellow.500"),
+      theme("colors.yellow.500") 50%,
+      theme("colors.slate.300") 50%,
+      theme("colors.slate.300")
+    );
+    @apply bg-clip-text text-transparent;
+  }
+}
