@@ -24,7 +24,7 @@ export default async function Page({ searchParams }) {
       key: "boilTime",
       label: "Boil Time",
       unit: "h",
-      calculatedValue: (b) => b.boilTime / 60,
+      calculatedValue: (b) => b.recipe.boilTime / 60,
     },
     {
       key: "measuredKettleSize",

@@ -1,5 +1,5 @@
 import { revalidateTag } from "next/cache";
-import { groupBy } from "@/lib/collections";
+import groupBy from "lodash/groupBy";
 
 const BREWFATHER_API_DOMAIN = "https://api.brewfather.app/v1";
 const FETCH_TAG = "brewfather";
@@ -15,17 +15,8 @@ export const fetchBatches = async ({
   debug: boolean;
   clearCache: boolean;
 }) => {
-  type BatchStatus =
-    | "planning"
-    | "brewing"
-    | "fermenting"
-    | "conditioning"
-    | "completed";
-  interface ColoredBatch extends Brewfather.Batch {
-    color: string;
-  }
-
   const includes = [
+    "name",
     "batchNotes",
     "batchFermentables",
     "batchHops",
@@ -145,23 +136,11 @@ export const fetchFermentationStats = async ({
     clearCache,
   });
 
-  if (!rawData) {
-    return {
-      notFound: true,
-    };
-  }
-
   // Massage Data
   return (
     rawData
       // Filter Out planned batches
       .filter((b) => b.status !== "Planning")
-      // bubble up some recipe properties to the root of the batch object
-      .map(({ recipe, ...batch }) => ({
-        styleName: recipe.style.name,
-        boilTime: recipe.boilTime,
-        ...batch,
-      }))
       // Sort by brew date ASC
       .sort((a, b) => a.brewDate - b.brewDate)
   );

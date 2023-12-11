@@ -1,6 +1,7 @@
 declare namespace Brewfather {
   interface Batch {
     _id: string;
+    name: string;
     batchFermentables: Fermentable[];
     batchHops: Hops[];
     batchNo: number;
@@ -55,9 +56,14 @@ declare namespace Brewfather {
   }
 
   interface Recipe {
+    name: string;
     boilTime: number;
     style: {
       name: string;
     };
   }
+}
+
+declare interface ColoredBatch extends Brewfather.Batch {
+  color: string;
 }

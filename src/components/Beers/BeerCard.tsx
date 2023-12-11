@@ -20,7 +20,7 @@ export const BeerCard = ({
   status,
   tasteRating,
   tasteNotes,
-}) => {
+}: ColoredBatch) => {
   const formatedBrewDate = new Date(brewDate).toDateString();
   const formatedBottlingDate = new Date(bottlingDate).toDateString();
 
