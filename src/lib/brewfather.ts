@@ -1,5 +1,4 @@
 import { revalidateTag } from "next/cache";
-
 import { groupBy } from "@/lib/collections";
 
 const BREWFATHER_API_DOMAIN = "https://api.brewfather.app/v1";
@@ -16,6 +15,16 @@ export const fetchBatches = async ({
   debug: boolean;
   clearCache: boolean;
 }) => {
+  type BatchStatus =
+    | "planning"
+    | "brewing"
+    | "fermenting"
+    | "conditioning"
+    | "completed";
+  interface ColoredBatch extends Brewfather.Batch {
+    color: string;
+  }
+
   const includes = [
     "batchNotes",
     "batchFermentables",
@@ -49,14 +58,14 @@ export const fetchBatches = async ({
     jJHVCzgXk5OebF6m9FppFbYSSOLvbL: "#F3DE95",
   };
 
-  const rawData = await fetchBrewfatherData({
+  const rawData = await fetchBrewfatherData<Brewfather.Batch[]>({
     endpoint: `/batches?include=${includes.join(",")}`,
     debug,
     clearCache,
   });
 
-  const data = rawData.map((b, i) => {
-    let batch = {};
+  const data = rawData.map((b) => {
+    let batch: ColoredBatch;
 
     // Add Color data data to the beer
     batch = {
@@ -83,7 +92,7 @@ export const fetchBatches = async ({
     fermenting = [],
     conditioning = [],
     completed = [],
-  } = groupBy(data, (b) => b.status.toLowerCase());
+  } = groupBy(data, (b: ColoredBatch) => b.status.toLowerCase());
 
   return {
     planning,
@@ -130,7 +139,7 @@ export const fetchFermentationStats = async ({
     "status",
   ];
 
-  const rawData = await fetchBrewfatherData({
+  const rawData = await fetchBrewfatherData<Brewfather.Batch[]>({
     endpoint: `/batches?include=${includes.join(",")}`,
     debug,
     clearCache,
@@ -158,7 +167,7 @@ export const fetchFermentationStats = async ({
   );
 };
 
-const fetchBrewfatherData = async ({
+const fetchBrewfatherData = async <T>({
   endpoint,
   debug = false,
   clearCache = false,
@@ -166,7 +175,7 @@ const fetchBrewfatherData = async ({
   endpoint: string;
   debug: boolean;
   clearCache: boolean;
-}) => {
+}): Promise<T> => {
   "use server";
 
   if (clearCache) {

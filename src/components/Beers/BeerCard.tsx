@@ -56,13 +56,13 @@ export const BeerCard = ({
             )}
             {measuredOg && (
               <div className="text-center">
-                {`${measuredOg}`.padEnd(5, 0)}&nbsp;
+                {`${measuredOg}`.padEnd(5, "0")}&nbsp;
                 <span className="font-semibold">OG</span>
               </div>
             )}
             {measuredFg && (
               <div className="text-center">
-                {`${measuredFg}`.padEnd(5, 0)}&nbsp;
+                {`${measuredFg}`.padEnd(5, "0")}&nbsp;
                 <span className="font-semibold">FG</span>
               </div>
             )}
@@ -151,8 +151,6 @@ export const BeerCard = ({
               </h3>
               <ul className="text-sm">
                 {batchYeasts.map((y) => (
-                  // { y.laboratory } — {y.name} {y.productId ? ` (${y.productId})` : ``}
-
                   <IngredientItem
                     item={`${y.laboratory} - ${y.name} ${
                       y.productId ? `(${y.productId})` : ``
@@ -236,7 +234,17 @@ const StarRating = ({ rating }) => {
   );
 };
 
-const BatchCircle = ({ color, number, className, ...restProps }) => {
+type BatchCircleProps = {
+  color: string;
+  number: number;
+  className?: string;
+};
+const BatchCircle = ({
+  color,
+  number,
+  className,
+  ...restProps
+}: BatchCircleProps) => {
   return (
     <div
       className={`relative flex justify-center items-center w-40 lg:w-52 h-40 lg:h-52 bg-gray-300 rounded-full drop-shadow text-center text-7xl md:text-9xl font-bold ${className}`}
@@ -253,7 +261,11 @@ const BatchCircle = ({ color, number, className, ...restProps }) => {
   );
 };
 
-const SupTitle = ({ children, className, ...restProps }) => (
+type SubTitleProps = {
+  children: React.ReactNode;
+  className?: string;
+};
+const SupTitle = ({ children, className, ...restProps }: SubTitleProps) => (
   <div
     className={`uppercase text-gray-400 md:text-sm font-semibold md:mb-2 ${className}`}
     {...restProps}
@@ -262,7 +274,11 @@ const SupTitle = ({ children, className, ...restProps }) => (
   </div>
 );
 
-const IngredientItem = ({ item, quantity, ...props }) => (
+type IngredientItemProps = {
+  item: string;
+  quantity?: string;
+};
+const IngredientItem = ({ item, quantity, ...props }: IngredientItemProps) => (
   <li className="flex justify-between mb-2" {...props}>
     <span className={quantity ? "flex-shrink-0" : ""}>{item}</span>
     {quantity && (

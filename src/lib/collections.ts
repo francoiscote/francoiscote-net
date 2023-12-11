@@ -1,5 +1,13 @@
-export const groupBy = (list, keyGetter) => {
-  const grouped = {};
+export const groupBy = <I>(
+  list: Array<I>,
+  keyGetter: (I) => string
+): {
+  [key: string]: Array<I>;
+} => {
+  const grouped: {
+    [key: string]: Array<I>;
+  } = {};
+
   list.forEach((item) => {
     const key = keyGetter(item);
     if (!Object.keys(grouped).includes(key)) {
