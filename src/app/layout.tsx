@@ -1,17 +1,22 @@
+import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "@/styles/globals.css";
 
-import { NavBar } from "@components/NavBar";
+import { NavBar } from "@/components/NavBar";
 
 const manrope = Manrope({ subsets: ["latin"] });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "francoiscote.net",
   description:
     "Bonjour, My name is François Côté, and I am a Web Developer based in Montréal (QC), Canada.",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <head>

@@ -1,78 +1,14 @@
 import Link from "next/link";
 
+import { fetchFermentationStats } from "@/lib/brewfather";
+
 const BREWFATHER_API_DOMAIN = "https://api.brewfather.app/v1";
 
-async function fetchBatches() {
-  const authString = Buffer.from(
-    `${process.env.BREWFATHER_API_USER_ID}:${process.env.BREWFATHER_API_KEY}`
-  ).toString("base64");
-
-  const headers = {
-    authorization: `Basic ${authString}`,
-  };
-
-  const includes = [
-    "bottlingDate",
-    "boilTime",
-    "estimatedColor",
-    "estimatedFg",
-    "estimatedIbu",
-    "estimatedTotalGravity",
-    "measuredAbv",
-    "measuredAttenuation",
-    "measuredBatchSize",
-    "measuredBoilSize",
-    "measuredBottlingSize",
-    "measuredConvertionEfficiency",
-    "measuredEfficiency",
-    "measuredFermenterTopUp",
-    "measuredFg",
-    "measuredKettleEfficiency",
-    "measuredKettleSize",
-    "measuredMashPh",
-    "measuredMashEfficiency",
-    "measuredOg",
-    "measuredPreBoilGravity",
-    "measuredPostBoilGravity",
-    "recipe.style.name",
-    "recipe.boilTime",
-    "status",
-  ];
-
-  const isDebug = false;
-  const endpoint = isDebug
-    ? `/batches?complete=true`
-    : `/batches?include=${includes.join(",")}`;
-
-  const res = await fetch(`${BREWFATHER_API_DOMAIN}${endpoint}`, {
-    headers,
+export default async function Page({ searchParams }) {
+  const batches = await fetchFermentationStats({
+    debug: searchParams.debug,
+    clearCache: searchParams.clearCache,
   });
-  const rawData = await res.json();
-
-  if (!rawData) {
-    return {
-      notFound: true,
-    };
-  }
-
-  // Massage Data
-  return (
-    rawData
-      // Filter Out planned batches
-      .filter((b) => b.status !== "Planning")
-      // bubble up some recipe properties to the root of the batch object
-      .map(({ recipe, ...batch }) => ({
-        styleName: recipe.style.name,
-        boilTime: recipe.boilTime,
-        ...batch,
-      }))
-      // Sort by brew date ASC
-      .sort((a, b) => a.brewDate - b.brewDate)
-  );
-}
-
-export default async function Page() {
-  const batches = await fetchBatches();
   const stats = [
     {
       key: "measuredBatchSize",
