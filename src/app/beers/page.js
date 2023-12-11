@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { revalidatePath } from "next/cache";
 
 import { groupBy } from "@lib/collections";
 import { capitalize } from "@lib/strings";
@@ -6,14 +7,6 @@ import { capitalize } from "@lib/strings";
 import { BeerCard } from "@components/Beers/BeerCard";
 
 const BREWFATHER_API_DOMAIN = "https://api.brewfather.app/v1";
-
-const authString = Buffer.from(
-  `${process.env.BREWFATHER_API_USER_ID}:${process.env.BREWFATHER_API_KEY}`
-).toString("base64");
-
-const headers = {
-  authorization: `Basic ${authString}`,
-};
 
 const includes = [
   "batchNotes",
@@ -48,16 +41,28 @@ const batchesColors = {
   jJHVCzgXk5OebF6m9FppFbYSSOLvbL: "#F3DE95",
 };
 
-async function getData() {
-  // todo: use query params
-  const isDebug = false;
+async function getData({ searchParams }) {
+  "use server";
 
-  const endpoint = isDebug
+  if (searchParams.clearCache) {
+    revalidatePath("/beers");
+  }
+
+  const endpoint = searchParams.debug
     ? `/batches?complete=true`
     : `/batches?include=${includes.join(",")}`;
 
+  const authString = Buffer.from(
+    `${process.env.BREWFATHER_API_USER_ID}:${process.env.BREWFATHER_API_KEY}`
+  ).toString("base64");
+
   const res = await fetch(`${BREWFATHER_API_DOMAIN}${endpoint}`, {
-    headers,
+    headers: {
+      authorization: `Basic ${authString}`,
+    },
+    next: {
+      revalidate: 3600,
+    },
   });
 
   if (!res.ok) {
@@ -66,6 +71,10 @@ async function getData() {
   }
 
   const rawData = await res.json();
+
+  if (searchParams.debug) {
+    console.log(rawData);
+  }
 
   const data = rawData.map((b, i) => {
     let batch = {};
@@ -106,8 +115,8 @@ async function getData() {
   };
 }
 
-export default async function Page() {
-  const data = await getData();
+export default async function Page({ searchParams }) {
+  const data = await getData({ searchParams });
   const statuses = Object.keys(data);
 
   return (
