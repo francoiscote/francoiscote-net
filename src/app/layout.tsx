@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
 import { Manrope } from "next/font/google";
 import "@/styles/globals.css";
 
@@ -31,6 +32,7 @@ export default function RootLayout({
         <main className="max-w-screen-xl my-0 mx-auto px-4">
           <NavBar />
           {children}
+          <Analytics />
         </main>
       </body>
     </html>
