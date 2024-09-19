@@ -83,6 +83,7 @@ export const fetchBatches = async ({
     fermenting = [],
     conditioning = [],
     completed = [],
+    archived = [],
   } = groupBy(data, (b: ColoredBatch) => b.status.toLowerCase());
 
   return {
@@ -91,6 +92,7 @@ export const fetchBatches = async ({
     fermenting,
     conditioning,
     completed,
+    archived,
   };
 };
 
@@ -165,7 +167,9 @@ const fetchBrewfatherData = async <T>({
   }
 
   const res = await fetch(
-    `${BREWFATHER_API_DOMAIN}${debug ? "/batches?complete=true" : endpoint}`,
+    `${BREWFATHER_API_DOMAIN}${
+      debug ? "/batches?complete=true&limit=30" : endpoint
+    }`,
     {
       headers: {
         authorization: `Basic ${authString}`,
