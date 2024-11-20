@@ -17,7 +17,12 @@ module.exports = {
       serif: [""],
       mono: ["monospace"],
     },
-    extend: {},
+    extend: {
+      colors: {
+        blueskyBlue: "#0A7AFF",
+        twitchPurple: "#6441a4",
+      },
+    },
   },
   plugins: [],
 };

@@ -1,5 +1,9 @@
 import Link from "next/link";
-import { GithubIcon } from "@/components/icons/SocialMediaIcons";
+import {
+  BlueskyIcon,
+  GithubIcon,
+  TwitchIcon,
+} from "@/components/icons/SocialMediaIcons";
 
 export default function Page() {
   return (
@@ -14,6 +18,18 @@ export default function Page() {
         </p>
       </div>
       <div className="flex justify-center">
+        <a
+          href="https://twitch.tv/francoiscote_dev"
+          className="text-slate-400 hover:text-twitchPurple mx-4"
+        >
+          <TwitchIcon className="h-7 w-7 transition-colors" />
+        </a>
+        <a
+          href="https://bsky.app/profile/francoiscote.dev"
+          className="text-slate-400 hover:text-blueskyBlue mx-4"
+        >
+          <BlueskyIcon className="h-7 w-7 transition-colors" />
+        </a>
         <a
           href="https://www.github.com/francoiscote"
           className="text-slate-400 hover:text-slate-500 mx-4"
