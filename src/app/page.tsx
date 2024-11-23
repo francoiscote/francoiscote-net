@@ -4,6 +4,7 @@ import {
   GithubIcon,
   TwitchIcon,
 } from "@/components/icons/SocialMediaIcons";
+import { BeerIcon } from "@/components/icons/otherIcons";
 
 export default function Page() {
   return (
@@ -36,8 +37,11 @@ export default function Page() {
         >
           <GithubIcon className="h-7 w-7 transition-colors" />
         </a>
-        <Link href="/beers" className="text-3xl hover:no-underline mx-4 -mt-1">
-          🍻
+        <Link
+          href="/beers"
+          className="text-slate-400 hover:text-yellow-400 hover:no-underline mx-4"
+        >
+          <BeerIcon className="h-7 w-7 transition-colors" />
         </Link>
       </div>
     </div>
